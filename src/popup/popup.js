@@ -134,7 +134,8 @@ function showContext(context) {
   }
 
   if (!context || typeof context.label !== "string") {
-    contextStatus.textContent = "ページ内にフォーカスされている要素はありません。";
+    contextStatus.textContent =
+      "要素を検知できていません。ページ内の要素をクリックまたはフォーカスしてから、開き直してください。";
     recommendations.hidden = true;
     return;
   }
