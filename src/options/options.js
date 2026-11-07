@@ -1,9 +1,3 @@
-const defaultSettings = {
-  position: "top-right",
-  textColor: "#172033",
-  backgroundColor: "#fff4cc",
-};
-
 const form = document.getElementById("settings-form");
 const position = document.getElementById("position");
 const textColor = document.getElementById("text-color");
@@ -11,7 +5,7 @@ const backgroundColor = document.getElementById("background-color");
 const status = document.getElementById("status");
 
 async function loadSettings() {
-  const settings = await chrome.storage.local.get(defaultSettings);
+  const settings = await globalThis.getNVDASettings();
   position.value = settings.position;
   textColor.value = settings.textColor;
   backgroundColor.value = settings.backgroundColor;
@@ -20,12 +14,14 @@ async function loadSettings() {
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   try {
-    await chrome.storage.local.set({
+    await globalThis.saveNVDASettings({
       position: position.value,
       textColor: textColor.value,
       backgroundColor: backgroundColor.value,
     });
-    status.textContent = "設定を保存しました。";
+    status.textContent = globalThis.hasNVDAChromeStorage()
+      ? "設定を保存しました。"
+      : "設定を保存しました。変更は次回パネル表示時に反映されます。";
   } catch (error) {
     console.error("表示設定を保存できませんでした。", error);
     status.textContent = "設定を保存できませんでした。もう一度お試しください。";
@@ -34,9 +30,11 @@ form.addEventListener("submit", async (event) => {
 
 document.getElementById("reset").addEventListener("click", async () => {
   try {
-    await chrome.storage.local.set(defaultSettings);
+    await globalThis.saveNVDASettings(globalThis.NVDA_DEFAULT_SETTINGS);
     await loadSettings();
-    status.textContent = "初期設定に戻しました。";
+    status.textContent = globalThis.hasNVDAChromeStorage()
+      ? "初期設定に戻しました。"
+      : "初期設定に戻しました。変更は次回パネル表示時に反映されます。";
   } catch (error) {
     console.error("初期設定に戻せませんでした。", error);
     status.textContent = "初期設定に戻せませんでした。もう一度お試しください。";

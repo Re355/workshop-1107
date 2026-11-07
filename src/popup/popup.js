@@ -2,12 +2,6 @@ const status = document.getElementById("status");
 const openSettings = document.getElementById("open-settings");
 const togglePanel = document.getElementById("toggle-panel");
 const shortcutList = document.getElementById("shortcut-list");
-const defaultSettings = {
-  position: "top-right",
-  textColor: "#172033",
-  backgroundColor: "#fff4cc",
-};
-
 openSettings.addEventListener("click", async () => {
   try {
     await chrome.runtime.openOptionsPage();
@@ -30,7 +24,7 @@ async function showPanel() {
       throw new Error("アクティブなタブを取得できませんでした。");
     }
 
-    const storedSettings = await chrome.storage.local.get(defaultSettings);
+    const storedSettings = await globalThis.getNVDASettings();
     await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       files: ["src/shared/shortcuts.js", "src/content/content.js"],

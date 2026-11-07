@@ -211,25 +211,27 @@
     sendResponse({ success: true, visible: true });
   });
 
-  chrome.storage.onChanged.addListener((changes, areaName) => {
-    if (areaName !== "local" || !activePanel) {
-      return;
-    }
+  if (chrome.storage?.onChanged) {
+    chrome.storage.onChanged.addListener((changes, areaName) => {
+      if (areaName !== "local" || !activePanel) {
+        return;
+      }
 
-    const updatedSettings = getSafeSettings({
-      position: changes.position?.newValue ?? activePanel.dataset.position,
-      textColor:
-        changes.textColor?.newValue ??
-        activePanel.style.getPropertyValue("--nvda-text-color"),
-      backgroundColor:
-        changes.backgroundColor?.newValue ??
-        activePanel.style.getPropertyValue("--nvda-background-color"),
+      const updatedSettings = getSafeSettings({
+        position: changes.position?.newValue ?? activePanel.dataset.position,
+        textColor:
+          changes.textColor?.newValue ??
+          activePanel.style.getPropertyValue("--nvda-text-color"),
+        backgroundColor:
+          changes.backgroundColor?.newValue ??
+          activePanel.style.getPropertyValue("--nvda-background-color"),
+      });
+      activePanel.dataset.position = updatedSettings.position;
+      activePanel.style.setProperty("--nvda-text-color", updatedSettings.textColor);
+      activePanel.style.setProperty(
+        "--nvda-background-color",
+        updatedSettings.backgroundColor,
+      );
     });
-    activePanel.dataset.position = updatedSettings.position;
-    activePanel.style.setProperty("--nvda-text-color", updatedSettings.textColor);
-    activePanel.style.setProperty(
-      "--nvda-background-color",
-      updatedSettings.backgroundColor,
-    );
-  });
+  }
 })();
