@@ -2,6 +2,7 @@ globalThis.NVDA_DEFAULT_SETTINGS = {
   position: "top-right",
   textColor: "#172033",
   backgroundColor: "#fff4cc",
+  fontSize: 14,
 };
 
 function hasNVDAChromeStorage() {
@@ -29,6 +30,16 @@ async function saveNVDASettings(settings) {
   localStorage.setItem("nvdaNavigatorSettings", JSON.stringify(settings));
 }
 
+async function notifyNVDASettingsChanged(settings) {
+  if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
+    await chrome.runtime.sendMessage({
+      type: "NVDA_NAVIGATOR_SETTINGS_UPDATED",
+      settings,
+    });
+  }
+}
+
 globalThis.hasNVDAChromeStorage = hasNVDAChromeStorage;
 globalThis.getNVDASettings = getNVDASettings;
 globalThis.saveNVDASettings = saveNVDASettings;
+globalThis.notifyNVDASettingsChanged = notifyNVDASettingsChanged;

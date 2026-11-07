@@ -9,6 +9,7 @@
     position: "top-right",
     textColor: "#172033",
     backgroundColor: "#fff4cc",
+    fontSize: 14,
   };
   const positions = new Set([
     "top-left",
@@ -19,6 +20,7 @@
   ]);
   const colorPattern = /^#[0-9a-f]{6}$/i;
   let activePanel = null;
+  let settingsPort = null;
 
   function getSafeSettings(settings) {
     return {
@@ -31,6 +33,12 @@
       backgroundColor: colorPattern.test(settings?.backgroundColor)
         ? settings.backgroundColor
         : defaultSettings.backgroundColor,
+      fontSize:
+        Number.isInteger(settings?.fontSize) &&
+        settings.fontSize >= 12 &&
+        settings.fontSize <= 24
+          ? settings.fontSize
+          : defaultSettings.fontSize,
     };
   }
 
@@ -39,6 +47,7 @@
     host.id = "nvda-navigator-shortcuts";
     host.style.setProperty("--nvda-text-color", settings.textColor);
     host.style.setProperty("--nvda-background-color", settings.backgroundColor);
+    host.style.setProperty("--nvda-font-size", `${settings.fontSize}px`);
 
     const shadow = host.attachShadow({ mode: "closed" });
     const style = document.createElement("style");
@@ -71,7 +80,7 @@
         background: var(--nvda-background-color);
         color: var(--nvda-text-color);
         box-shadow: 0 8px 32px rgb(0 0 0 / 35%);
-        font-size: 14px;
+        font-size: var(--nvda-font-size);
         line-height: 1.5;
       }
       .header {
@@ -81,8 +90,8 @@
         gap: 12px;
         margin-bottom: 12px;
       }
-      h1 { margin: 0; font-size: 19px; line-height: 1.4; }
-      .hint { margin: 3px 0 0; font-size: 12px; }
+      h1 { margin: 0; font-size: 1.35em; line-height: 1.4; }
+      .hint { margin: 3px 0 0; font-size: 0.86em; }
       .close {
         flex: 0 0 auto;
         width: 36px;
@@ -98,7 +107,7 @@
       }
       .close:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; }
       section { margin-top: 12px; }
-      h2 { margin: 0 0 5px; font-size: 15px; }
+      h2 { margin: 0 0 5px; font-size: 1.08em; }
       ul { margin: 0; padding: 0; list-style: none; }
       li {
         display: flex;
@@ -116,7 +125,7 @@
         background: rgb(127 127 127 / 18%);
         color: inherit;
         font: inherit;
-        font-size: 12px;
+        font-size: 0.86em;
         white-space: nowrap;
       }
       @media (prefers-reduced-motion: reduce) {
@@ -137,7 +146,8 @@
     heading.textContent = "NVDAナビゲーター";
     const hint = document.createElement("p");
     hint.className = "hint";
-    hint.textContent = "NVDAキーは通常 Insert または Caps Lock です。";
+    hint.textContent =
+      "NVDAキーは通常 Insert または Caps Lock です。クイックナビゲーションはブラウズモードで使い、Shiftを加えると前の要素へ移動します。";
     title.append(heading, hint);
 
     const closeButton = document.createElement("button");
@@ -148,6 +158,8 @@
     closeButton.addEventListener("click", () => {
       host.remove();
       activePanel = null;
+      settingsPort?.disconnect();
+      settingsPort = null;
     });
     header.append(title, closeButton);
     panel.append(header);
@@ -196,6 +208,8 @@
     if (activePanel?.isConnected) {
       activePanel.remove();
       activePanel = null;
+      settingsPort?.disconnect();
+      settingsPort = null;
       sendResponse({ success: true, visible: false });
       return;
     }
@@ -208,8 +222,34 @@
 
     activePanel = createPanel(getSafeSettings(message.settings));
     document.documentElement.append(activePanel);
+    settingsPort = chrome.runtime.connect({
+      name: "NVDA_NAVIGATOR_PANEL",
+    });
+    settingsPort.onMessage.addListener((update) => {
+      if (update?.type === "NVDA_NAVIGATOR_SETTINGS_UPDATED") {
+        applySettings(update.settings);
+      }
+    });
     sendResponse({ success: true, visible: true });
   });
+
+  function applySettings(settings) {
+    if (!activePanel?.isConnected) {
+      return;
+    }
+
+    const updatedSettings = getSafeSettings(settings);
+    activePanel.dataset.position = updatedSettings.position;
+    activePanel.style.setProperty("--nvda-text-color", updatedSettings.textColor);
+    activePanel.style.setProperty(
+      "--nvda-background-color",
+      updatedSettings.backgroundColor,
+    );
+    activePanel.style.setProperty(
+      "--nvda-font-size",
+      `${updatedSettings.fontSize}px`,
+    );
+  }
 
   if (chrome.storage?.onChanged) {
     chrome.storage.onChanged.addListener((changes, areaName) => {
@@ -225,13 +265,14 @@
         backgroundColor:
           changes.backgroundColor?.newValue ??
           activePanel.style.getPropertyValue("--nvda-background-color"),
+        fontSize:
+          changes.fontSize?.newValue ??
+          Number.parseInt(
+            activePanel.style.getPropertyValue("--nvda-font-size"),
+            10,
+          ),
       });
-      activePanel.dataset.position = updatedSettings.position;
-      activePanel.style.setProperty("--nvda-text-color", updatedSettings.textColor);
-      activePanel.style.setProperty(
-        "--nvda-background-color",
-        updatedSettings.backgroundColor,
-      );
+      applySettings(updatedSettings);
     });
   }
 })();

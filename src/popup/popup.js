@@ -31,7 +31,7 @@ async function showPanel() {
     });
     const response = await chrome.tabs.sendMessage(tab.id, {
       type: "NVDA_NAVIGATOR_TOGGLE_PANEL",
-      settings: { ...defaultSettings, ...storedSettings },
+      settings: { ...globalThis.NVDA_DEFAULT_SETTINGS, ...storedSettings },
     });
 
     if (!response?.success) {

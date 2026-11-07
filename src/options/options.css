@@ -74,6 +74,11 @@ input[type="color"] {
   cursor: pointer;
 }
 
+input[type="range"] {
+  width: 100%;
+  accent-color: #2458a6;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
