@@ -2,13 +2,15 @@
   "manifest_version": 3,
   "name": "__MSG_name__",
   "description": "__MSG_description__",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "default_locale": "ja",
   "action": {
     "default_popup": "src/popup/popup.html"
   },
   "permissions": [
     "activeTab",
-    "scripting"
-  ]
+    "scripting",
+    "storage"
+  ],
+  "options_page": "src/options/options.html"
 }

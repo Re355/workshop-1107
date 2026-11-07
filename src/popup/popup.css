@@ -11,10 +11,8 @@
 }
 
 body {
-  width: 380px;
-  max-height: 600px;
+  width: 300px;
   margin: 0;
-  overflow-y: auto;
 }
 
 main {
@@ -22,7 +20,7 @@ main {
 }
 
 .page-header {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .eyebrow,
@@ -34,147 +32,85 @@ main {
 
 h1 {
   margin: 4px 0 0;
-  font-size: 20px;
+  font-size: 19px;
   line-height: 1.4;
 }
 
-h2 {
-  margin: 0 0 10px;
-  font-size: 16px;
-}
-
-h3 {
-  margin: 0 0 8px;
-  font-size: 14px;
-}
-
-.context-panel {
-  padding: 14px;
-  border: 1px solid #b8c9ec;
-  border-left: 4px solid #2458a6;
-  border-radius: 8px;
-  background: #edf3ff;
-}
-
-.context-status {
-  margin: 0;
-  font-weight: 700;
-}
-
-#recommendations {
-  margin-top: 12px;
-}
-
-#recommendation-list,
-.shortcut-group ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.recommendation-intro {
-  margin-bottom: 8px;
-  color: #39465c;
-  font-size: 12px;
-}
-
-.recommendation {
-  display: inline-block;
-  margin: 0 6px 6px 0;
-  padding: 4px 8px;
-  border-radius: 5px;
-  color: #133b77;
-  background: #d7e5ff;
-  font-weight: 700;
-}
-
-.shortcuts-panel {
-  margin-top: 18px;
-}
-
-.hint {
-  margin: -4px 0 10px;
-}
-
-.shortcut-group {
-  margin-top: 10px;
-  padding: 12px;
-  border: 1px solid #dce2ed;
-  border-radius: 8px;
-  background: #fff;
-}
-
-.shortcut-group h3 {
-  color: #39465c;
-}
-
-.shortcut {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 8px 6px;
-  border-top: 1px solid #edf0f5;
-}
-
-.shortcut:first-child {
-  border-top: 0;
-}
-
-.shortcut-label {
-  line-height: 1.45;
-}
-
-.shortcut-keys {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 4px;
-}
-
-kbd {
-  min-width: 24px;
-  padding: 3px 6px;
-  border: 1px solid #c7ceda;
-  border-bottom-width: 2px;
-  border-radius: 4px;
-  background: #f7f8fb;
-  color: #172033;
-  font-family: inherit;
-  font-size: 12px;
-  text-align: center;
-}
-
-.key-separator {
-  color: #526078;
-  font-size: 11px;
-}
-
-.shortcut.is-recommended {
-  border-radius: 5px;
-  background: #fff1c2;
-  box-shadow: inset 3px 0 #9c6900;
-}
-
-footer {
-  margin-top: 14px;
-  color: #526078;
-  font-size: 11px;
+#status {
+  margin: 0 0 12px;
   line-height: 1.5;
 }
 
-footer p {
+.hint {
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.actions {
+  display: grid;
+  gap: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  background: #2458a6;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #193f7c;
+}
+
+button.secondary {
+  border: 1px solid #65738a;
+  color: #24334d;
+  background: #fff;
+}
+
+button.secondary:hover {
+  background: #edf0f5;
+}
+
+button:disabled {
+  cursor: wait;
+}
+
+#shortcut-list {
+  max-height: 360px;
+  margin-top: 16px;
+  overflow-y: auto;
+}
+
+.shortcut-group {
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px solid #dce2ed;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.shortcut-group h2 {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+
+.shortcut-group ul {
   margin: 0;
+  padding-left: 20px;
 }
 
-[hidden] {
-  display: none !important;
+.shortcut-group li {
+  margin-top: 6px;
+  line-height: 1.4;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-  }
+button:focus-visible {
+  outline: 3px solid #142e5c;
+  outline-offset: 2px;
 }

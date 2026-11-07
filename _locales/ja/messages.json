@@ -3,6 +3,6 @@
     "message": "NVDAナビゲーター"
   },
   "description": {
-    "message": "Webページの要素に合わせてNVDAのショートカットを案内します。"
+    "message": "WebページにNVDAのショートカット一覧を固定表示します。"
   }
 }

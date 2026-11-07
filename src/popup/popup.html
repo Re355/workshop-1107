@@ -12,28 +12,15 @@
         <p class="eyebrow">スクリーンリーダー操作ガイド</p>
         <h1>NVDAナビゲーター</h1>
       </header>
-
-      <section class="context-panel" aria-labelledby="context-heading">
-        <h2 id="context-heading">今いる要素</h2>
-        <p id="context-status" class="context-status" role="status" aria-live="polite">
-          ページの状態を確認しています…
-        </p>
-        <div id="recommendations" hidden>
-          <h3>この要素で使えるコマンド</h3>
-          <ul id="recommendation-list"></ul>
-        </div>
-      </section>
-
-      <section class="shortcuts-panel" aria-labelledby="shortcuts-heading">
-        <h2 id="shortcuts-heading">基本のショートカット</h2>
-        <p class="hint">NVDAキーは通常 Insert または Caps Lock です。</p>
-        <div id="shortcut-groups"></div>
-      </section>
-
-      <footer>
-        <p>コマンドは主にブラウズモードで使用します。設定やフォーカス状態により動作が異なる場合があります。</p>
-      </footer>
+      <p id="status" role="status" aria-live="polite">ページ上のパネルを表示／非表示にできます。</p>
+      <p class="hint">表示位置や色は設定から変更できます。NVDAキーは通常 Insert または Caps Lock です。</p>
+      <div class="actions">
+        <button id="toggle-panel" type="button">パネルを表示／閉じる</button>
+        <button id="open-settings" class="secondary" type="button">表示設定を開く</button>
+      </div>
+      <div id="shortcut-list" hidden></div>
     </main>
+    <script src="../shared/shortcuts.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>

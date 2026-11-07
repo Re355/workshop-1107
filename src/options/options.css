@@ -1,0 +1,129 @@
+:root {
+  color-scheme: light;
+  font-family: "Yu Gothic UI", "Meiryo", sans-serif;
+  color: #172033;
+  background: #f5f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 32px 16px;
+}
+
+main {
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding: 28px;
+  border: 1px solid #dce2ed;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 18px rgb(23 32 51 / 8%);
+}
+
+.eyebrow {
+  margin: 0;
+  color: #526078;
+  font-size: 13px;
+}
+
+h1 {
+  margin: 4px 0;
+  font-size: 24px;
+}
+
+header > p:last-child,
+.note {
+  color: #526078;
+  line-height: 1.6;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+label {
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+select,
+input,
+button {
+  min-height: 42px;
+  border: 1px solid #9aa8bd;
+  border-radius: 6px;
+  font: inherit;
+}
+
+select {
+  padding: 8px 10px;
+  background: #fff;
+}
+
+input[type="color"] {
+  width: 72px;
+  padding: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+button {
+  padding: 8px 14px;
+  border-color: #2458a6;
+  color: #fff;
+  background: #2458a6;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #193f7c;
+}
+
+button.secondary {
+  border-color: #65738a;
+  color: #24334d;
+  background: #fff;
+}
+
+button.secondary:hover {
+  background: #edf0f5;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 3px solid #142e5c;
+  outline-offset: 2px;
+}
+
+#status {
+  min-height: 1.5em;
+  margin: 8px 0 0;
+  color: #195c36;
+}
+
+.note {
+  margin: 18px 0 0;
+  font-size: 13px;
+}
+
+@media (max-width: 420px) {
+  main {
+    padding: 20px;
+  }
+}
