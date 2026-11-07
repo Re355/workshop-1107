@@ -46,8 +46,30 @@ async function showPanel() {
     window.close();
   } catch (error) {
     console.error("ページ上にショートカットパネルを表示できませんでした。", error);
-    status.textContent =
-      "パネルを表示できませんでした。ショートカット一覧を表示します。Chromeの設定画面などではページ上に表示できません。";
+    const errorMessage =
+      error instanceof Error ? error.message : String(error);
+    const isRestrictedPage =
+      /cannot access (contents of )?(the )?(page|url)|cannot access a chrome:\/\/|cannot be scripted|extensions gallery/i.test(
+        errorMessage,
+      );
+    const isMissingReceiver =
+      /receiving end does not exist|could not establish connection/i.test(
+        errorMessage,
+      );
+
+    if (isRestrictedPage) {
+      status.textContent =
+        "このページではChromeの制限によりパネルを表示できません。ショートカット一覧をポップアップに表示します。";
+    } else if (isMissingReceiver) {
+      status.textContent =
+        "ページとの通信に失敗しました。chrome://extensions で拡張機能を再読み込みし、対象ページも再読み込みしてください。";
+    } else {
+      const detail =
+        errorMessage.length > 180
+          ? `${errorMessage.slice(0, 177)}…`
+          : errorMessage;
+      status.textContent = `パネルを表示できませんでした。拡張機能とページを再読み込みして再試行してください。原因: ${detail}`;
+    }
     renderShortcutList();
     togglePanel.disabled = false;
   }
