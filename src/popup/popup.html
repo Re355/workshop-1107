@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NVDAナビゲーター</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main>
+      <header class="page-header">
+        <p class="eyebrow">スクリーンリーダー操作ガイド</p>
+        <h1>NVDAナビゲーター</h1>
+      </header>
+
+      <section class="context-panel" aria-labelledby="context-heading">
+        <h2 id="context-heading">今いる要素</h2>
+        <p id="context-status" class="context-status" role="status" aria-live="polite">
+          ページの状態を確認しています…
+        </p>
+        <div id="recommendations" hidden>
+          <h3>この要素で使えるコマンド</h3>
+          <ul id="recommendation-list"></ul>
+        </div>
+      </section>
+
+      <section class="shortcuts-panel" aria-labelledby="shortcuts-heading">
+        <h2 id="shortcuts-heading">基本のショートカット</h2>
+        <p class="hint">NVDAキーは通常 Insert または Caps Lock です。</p>
+        <div id="shortcut-groups"></div>
+      </section>
+
+      <footer>
+        <p>コマンドは主にブラウズモードで使用します。設定やフォーカス状態により動作が異なる場合があります。</p>
+      </footer>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

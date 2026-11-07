@@ -1,0 +1,8 @@
+{
+  "name": {
+    "message": "NVDA Navigator"
+  },
+  "description": {
+    "message": "Find NVDA keyboard shortcuts for the current element on a web page."
+  }
+}

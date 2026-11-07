@@ -1,0 +1,8 @@
+{
+  "name": {
+    "message": "NVDAナビゲーター"
+  },
+  "description": {
+    "message": "Webページの要素に合わせてNVDAのショートカットを案内します。"
+  }
+}
